@@ -59,7 +59,7 @@ const AddModel = () => {
 
     return (
         <div>
-            <span className="block text-center w-full mt-[20px] pb-[24px] text-[40px] font-semibold">Thêm model</span>
+            <span className="block text-center w-full mt-[20px] pb-[24px] text-[40px] font-semibold">Thêm model biển xe</span>
             <Link to={`/model/bien`}>
                 <div className="px-[20px] py-[4px] border-2 border-[#000] inline-block mr-[900px] mb-[10px]">Back</div>
             </Link>
