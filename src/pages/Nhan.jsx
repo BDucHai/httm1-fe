@@ -21,8 +21,11 @@ const Nhan = () => {
     const [update, setUpdate] = useState(false);
     const [open, setOpen] = useState(false);
 
+<<<<<<< HEAD
     const [searchValue, setSearchValue] = useState("");
     const [nhanShow, setNhanShow] = useState([]);
+=======
+>>>>>>> 85f2650e8bc15c6cbaac721a58b16039c225aa45
 
     const handleDelete = async (id) => {
         await axios.delete(`https://httm1-production.up.railway.app/api/bien/deleteNhan/${id}`);
@@ -56,7 +59,11 @@ const Nhan = () => {
 
     return (
         <div className="mt-[40px]">
+<<<<<<< HEAD
             <p className="text-[30px] font-bold mb-[40px]">Quản lý nhãn biển</p>
+=======
+            <p className="text-[30px] font-bold mb-[40px]">Quản lý nhãn biển xe</p>
+>>>>>>> 85f2650e8bc15c6cbaac721a58b16039c225aa45
             <div className="flex justify-between px-[140px] mb-[40px]">
                 <Link to={`/modifier/nhan/bien/0`}>
                     <div className="px-[6px] py-[3px] text-center border-2 border-[#0c2ad6] rounded-[4px] cursor-pointer">
