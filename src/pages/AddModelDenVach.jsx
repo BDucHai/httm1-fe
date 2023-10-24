@@ -31,7 +31,7 @@ const AddModelDenVach = () => {
 
     const handleAdd = async () => {
         await axios
-            .post(`https://ptht.onrender.com/api/${type}/qlmodel`, model)
+            .post(`https://ptht.onrender.com/api/model/`, model)
             .then((e) => {
                 setMess(`Thêm thành công!!`);
                 setModel({

@@ -47,7 +47,7 @@ const ModelType = ({ type }) => {
     useEffect(() => {
         const fetchModel = async () => {
             await axios
-                .get(`https://ptht.onrender.com/api/${type}/qlmodel`)
+                .get(`https://ptht.onrender.com/api/model/`)
                 .then((e) => {
                     setModel(e.data.data);
                     setModelShow(e.data.data);
