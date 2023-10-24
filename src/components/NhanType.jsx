@@ -20,6 +20,10 @@ const NhanType = ({ type }) => {
     const [state, setState] = useState();
     const [update, setUpdate] = useState(false);
     const [open, setOpen] = useState(false);
+
+    const [searchValue, setSearchValue] = useState("");
+    const [nhanShow, setNhanShow] = useState([]);
+
     let name;
     const handleName = () => {
         if (type === "den") {
@@ -37,12 +41,21 @@ const NhanType = ({ type }) => {
         setUpdate(true);
     };
 
+    const handleFind = () => {
+        setNhanShow(
+            nhan.filter((m) => {
+                return m.idMau.includes(searchValue);
+            })
+        );
+    };
+
     useEffect(() => {
         const fetchNhan = async () => {
             await axios
                 .get(`https://ptht.onrender.com/api/${type}/qlnhan`)
                 .then((e) => {
                     setNhan(e.data.data);
+                    setNhanShow(e.data.data);
                 })
                 .catch((e) => {});
         };
@@ -63,8 +76,15 @@ const NhanType = ({ type }) => {
                     </div>
                 </Link>
                 <div className="flex">
-                    <input type="text" className="px-[3px] py-[4px] w-[200px] border-[#000] border-2 rounded-[4px]" />
-                    <div className="px-[10px] py-[3px] border-2 border-[#0c2ad6] rounded-[4px] cursor-pointer ml-[4px]">
+                    <input
+                        type="text"
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        className="px-[3px] py-[4px] w-[200px] border-[#000] border-2 rounded-[4px]"
+                    />
+                    <div
+                        className="px-[10px] py-[3px] border-2 border-[#0c2ad6] rounded-[4px] cursor-pointer ml-[4px]"
+                        onClick={handleFind}>
                         Search
                     </div>
                 </div>
@@ -96,8 +116,8 @@ const NhanType = ({ type }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {nhan.length !== 0 &&
-                            nhan.map((row) => (
+                        {nhanShow.length !== 0 &&
+                            nhanShow.map((row) => (
                                 <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                                     {type === "den" ? (
                                         <TableCell component="th" scope="row">

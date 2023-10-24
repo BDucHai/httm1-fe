@@ -16,6 +16,10 @@ const ModelType = ({ type }) => {
     const [state, setState] = useState();
     const [update, setUpdate] = useState(false);
     const [open, setOpen] = useState(false);
+
+    const [searchValue, setSearchValue] = useState("");
+    const [modelShow, setModelShow] = useState([]);
+
     let name;
     const handleName = () => {
         if (type === "den") {
@@ -32,12 +36,21 @@ const ModelType = ({ type }) => {
         setUpdate(true);
     };
 
+    const handleFind = () => {
+        setModelShow(
+            model.filter((m) => {
+                return m.name.includes(searchValue);
+            })
+        );
+    };
+
     useEffect(() => {
         const fetchModel = async () => {
             await axios
                 .get(`https://ptht.onrender.com/api/${type}/qlmodel`)
                 .then((e) => {
-                    setModel(e.data);
+                    setModel(e.data.data);
+                    setModelShow(e.data.data);
                 })
                 .catch((e) => {});
         };
@@ -62,8 +75,15 @@ const ModelType = ({ type }) => {
                     </div>
                 </div>
                 <div className="flex">
-                    <input type="text" className="px-[3px] py-[4px] w-[200px] border-[#000] border-2 rounded-[4px]" />
-                    <div className="px-[10px] py-[3px] border-2 border-[#0c2ad6] rounded-[4px] cursor-pointer ml-[4px]">
+                    <input
+                        type="text"
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        className="px-[3px] py-[4px] w-[200px] border-[#000] border-2 rounded-[4px]"
+                    />
+                    <div
+                        className="px-[10px] py-[3px] border-2 border-[#0c2ad6] rounded-[4px] cursor-pointer ml-[4px]"
+                        onClick={handleFind}>
                         Search
                     </div>
                 </div>
@@ -104,8 +124,8 @@ const ModelType = ({ type }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {model.length !== 0 &&
-                            model.map((row) => (
+                        {modelShow.length !== 0 &&
+                            modelShow.map((row) => (
                                 <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                                     <TableCell component="th" scope="row">
                                         {row._id}

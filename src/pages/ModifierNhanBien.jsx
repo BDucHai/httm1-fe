@@ -92,7 +92,7 @@ const ModifierNhanBien = () => {
     };
     return (
         <div>
-            <span className="block text-center w-full mt-[20px] text-[40px] font-semibold">{action} nhãn</span>
+            <span className="block text-center w-full mt-[20px] text-[40px] font-semibold">{action} nhãn biển</span>
 
             <Link to={`/nhan/bien`}>
                 <div className="px-[20px] py-[4px] border-2 border-[#000] inline-block mr-[900px] mb-[10px]">Back</div>

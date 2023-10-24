@@ -9,12 +9,16 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
 import { Link } from "react-router-dom";
+import useDebounce from "../hooks/useDebounce";
 
 const Mau = () => {
     const [mau, setMau] = useState([]);
     const [state, setState] = useState();
     const [update, setUpdate] = useState(false);
     const [open, setOpen] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
+
+    const [mauShow, setMauShow] = useState([]);
 
     const handleDelete = async (id) => {
         await axios.delete(`https://httm1-production.up.railway.app/api/bien/deleteMau/${id}`);
@@ -28,14 +32,26 @@ const Mau = () => {
                 .get(`https://httm1-production.up.railway.app/api/bien/getAllMau`)
                 .then((e) => {
                     setMau(e.data);
+                    setMauShow(e.data);
                 })
                 .catch((e) => {});
         };
+
         fetchMau();
+
         return () => {
             setUpdate(false);
         };
     }, [update]);
+
+    const handleFind = () => {
+        setMauShow(
+            mau.filter((m) => {
+                return m.description.includes(searchValue);
+            })
+        );
+    };
+
     return (
         <div className="mt-[40px]">
             <p className="text-[30px] font-bold mb-[40px]">Quản lý mẫu biển</p>
@@ -46,8 +62,15 @@ const Mau = () => {
                     </div>
                 </Link>
                 <div className="flex">
-                    <input type="text" className="px-[3px] py-[4px] w-[200px] border-[#000] border-2 rounded-[4px]" />
-                    <div className="px-[10px] py-[3px] border-2 border-[#0c2ad6] rounded-[4px] cursor-pointer ml-[4px]">
+                    <input
+                        type="text"
+                        value={searchValue}
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        className="px-[3px] py-[4px] w-[200px] border-[#000] border-2 rounded-[4px]"
+                    />
+                    <div
+                        className="px-[10px] py-[3px] border-2 border-[#0c2ad6] rounded-[4px] cursor-pointer ml-[4px]"
+                        onClick={handleFind}>
                         Search
                     </div>
                 </div>
@@ -70,8 +93,8 @@ const Mau = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {mau.length !== 0 &&
-                            mau.map((row, index) => (
+                        {mauShow.length !== 0 &&
+                            mauShow.map((row, index) => (
                                 <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                                     <TableCell component="th" scope="row">
                                         {row.id}
